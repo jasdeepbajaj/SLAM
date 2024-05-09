@@ -1,7 +1,5 @@
 # Unit A
 
-`IMPORTANT: FOR DETAILED UNDERSTANDING, PLEASE VIEW THE LECTURE VIDEOS. THIS README IS MEANT FOR QUICK REFERENCE.`
-
 This unit explores the navigation mechanics of a robot equipped with a 2D LIDAR scanner and two wheel encoders. Each wheel encoder counts the rotations of its respective wheel in ticks, which translate to a specific distance that the robot travels.
 
 `NOTE: Differences in wheel rotation speeds cause the robot to turn.`
@@ -13,9 +11,7 @@ The robot's movement can be categorized into two primary types:
 
 To estimate the new position of the robot after moving, we calculate the distance using:
 
-`
-distance = motor_ticks * ticks_to_distance_ratio
-`
+`distance = motor_ticks * ticks_to_distance_ratio`
 
 
 `This ratio is calculated by moving the robot a known distance and then dividing the number of ticks by this distance.`
