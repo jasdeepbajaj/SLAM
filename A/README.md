@@ -78,7 +78,39 @@ To address this issue, a practical solution has been implemented: the robot is p
 
 ![work around](assets/workaround.png)
 
+
+## Final Result
+
 After going through all these steps we end up with this trajectory (that could be improved) of our robot as follows:
 
 ![final trajectory](assets/final_trajectory.png)
 
+## Code Overview
+
+- The first Python file, `1plot_motor_ticks.py`, includes a script for plotting motor tick values from a robotics data file. It reads motor values from a file named robot4_motors.txt, extracts left and right motor tick values, and then plots them on a graph to visualize the motor activities over time.
+
+- The second Python file, `2plot_motor_increments.py`, reads and plots motor tick data from a file using a module called lego_robot. The script plots the motor ticks data, allowing visualization of how motor increments change over time.
+
+- The third Python file, `3filter_motor.py`, implements a function called filter_step to compute the new position and orientation of a robot based on motor tick readings. This script uses trigonometry to determine movement and turning, accommodating both straight and curved paths based on differences in motor ticks. It processes a sequence of motor ticks from a log file (robot4_motors.txt), computes successive robot poses, and visualizes the path of the robot as a plot.
+
+- The fourth Python file, `4filter_motor_file.py`, enhances the robot positioning logic found in the previous script by considering the displacement of a scanner from the robot's center. It processes motor tick data to update the robot's pose considering the scanner's offset, which is critical for accuracy in applications like mapping and navigation where the sensor's position relative to the robot's center impacts data interpretation. This script calculates both straight-line and turning movements, updates the robot's orientation, and recalculates the scanner's position after movement. The updated poses are plotted and saved to a file, `4poses_from_ticks.txt`, for further analysis or use.
+
+- The fifth Python file, `5plot_scan_data.py`, visualizes scan data from a robotics system, specifically plotting the data from one scan. It uses the LegoLogfile class to read scan data from a file named `robot4_scan.txt`. This script focuses on displaying how the scan data is distributed across different angles, which can be essential for understanding sensor coverage or detecting anomalies in sensor readings.
+
+- The sixth Python file, `6scan_derivative.py`, computes and visualizes the derivative of scan data from a robotic sensor. This script is particularly useful for identifying sharp changes in the scan data, which can indicate edges or objects within the robot's environment. It uses a central difference method to calculate the derivative, considering only points that exceed a minimum valid distance to avoid noise and irrelevant fluctuations. The results, including both the original scan and its derivative, are plotted for visual comparison, enhancing the ability to detect significant features in the scan data.
+
+- The seventh Python file, `7find_cylinders.py`, implements a method to detect cylindrical objects from scan data, leveraging derivatives calculated from the scan to pinpoint significant changes in distance that might indicate the presence of an object. The process involves:
+
+1. Computing the derivative of the scan data to find jumps, which are sudden changes in distance measurements.
+2. Identifying regions between these jumps as potential cylinders.
+3. Calculating the average position and depth for detected cylinders to provide a concise representation of each detected object.
+
+The results are visualized with the original scan data and markers indicating detected cylinders, which is useful for robotic applications like obstacle avoidance or environment mapping.
+
+- The last Python file, `8cylinder_cartesian.py`, extends the cylinder detection functionality by converting the cylindrical coordinates (based on scan data) to Cartesian coordinates. This is useful for mapping and robotics applications where real-world coordinates are required. The steps in the script include:
+
+1. Computing derivatives of scan data to identify significant changes, indicating potential edges of objects.
+2. Finding cylinders based on these derivatives.
+3. Converting cylindrical coordinates of detected objects into Cartesian coordinates using trigonometric transformations, taking into account an offset that represents the physical displacement of the scanner from the robot's center.
+
+The converted coordinates are written to an output file, 8cylinders.txt, which can be used for further processing or visualization in a more spatially relevant format.
